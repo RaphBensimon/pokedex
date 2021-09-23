@@ -1,0 +1,23 @@
+{
+	"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"eslint.fixAll.eslint": true,
+		"source.fixAll.stylelint": true
+	},
+	"javascript.format.semicolons": "remove",
+	"eslint.validate": ["javascript"],
+	"eslint.alwaysShowStatus": true,
+	"eslint.options": {
+		"extensions": [
+			".html",
+			".js",
+			".vue",
+		]
+	},
+	"eslint.workingDirectories": [
+		"./client",
+		"./server"
+	],
+	"editor.renderWhitespace": "all", 
+}
