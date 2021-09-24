@@ -1,14 +1,16 @@
 <template>
 	<div class="pokemon-list">
 		<Pokemon v-for="(pokemon, index) in pokemons" :key="index" :pokemon="pokemon" />
+		<Pokedex />
 	</div>
 </template>
 
 <script>
-import Pokemon from './list/Pokemon.vue'
+import { Pokemon, Pokedex } from './list/'
 export default {
 	components : {
-		Pokemon
+		Pokemon,
+		Pokedex
 	},
 	data() {
 		return {
@@ -20,7 +22,7 @@ export default {
 	},
 	methods : {
 		loadPokemons() {
-			this.$axios.$get('https://pokeapi.co/api/v2/pokemon?limit=100').then(res => {
+			this.$axios.$get('https://pokeapi.co/api/v2/pokemon?limit=151').then(res => {
 				this.pokemons = res.results
 			})
 		}
