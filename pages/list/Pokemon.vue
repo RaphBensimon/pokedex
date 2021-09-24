@@ -1,5 +1,5 @@
 <template>
-	<div class="pokemon" :class="{'loading': loading, 'inTeam': isInTeam}" @click="addPokemonToTeam">
+	<div class="pokemon" :class="{'loading': loading, 'inTeam': isInTeam}" @click.prevent="editPokemonInTeam">
 		<div class="name">
 			{{ pokemon.name }}
 		</div>
@@ -16,6 +16,11 @@
 			</div>
 			<img class="sprite" :src="information.sprites.front_default">
 		</div>
+		<button class="btn-icon blue" :class="{'white': isInTeam}"
+			@click.stop="$router.push('/pokemon')">
+			More information
+			<icon icon="eye" class="eye" />
+		</button>
 	</div>
 </template>
 <script>
@@ -66,8 +71,10 @@ export default {
 				await this.loadInformation()
 			}
 		},
-		addPokemonToTeam() {
-			if(!this.isInTeam) {
+		editPokemonInTeam() {
+			if(this.isInTeam) {
+				this.$store.commit('team/REMOVE_POKEMON', this.pokemon)
+			} else {
 				const pokemon = {
 					name : this.pokemon.name,
 					img  : this.information.img.src
@@ -81,11 +88,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/_variables.scss';
 .pokemon {
-	width: 23%;
 	position: relative;
-	min-height: 75px;
+	min-height: 100px;
 	padding: 5px 60px 5px 10px;
-	margin: 1%;
 	border: 1px solid $light-grey;
 	border-radius: $border-radius;
 	box-shadow: rgba($black, 0.2) 0 2px 8px 0;
@@ -110,5 +115,12 @@ export default {
 	font-weight: bold;
 	font-size: 1.2rem;
 	text-transform: capitalize;
+}
+button {
+	position: absolute;
+	bottom: 10px;
+}
+.eye {
+	margin-left: 3px;
 }
 </style>

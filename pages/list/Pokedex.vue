@@ -8,9 +8,9 @@
 				<img class="sprite" :src="pokemon.img">
 			</div>
 		</div>
-		<div v-else>
+		<h3 v-else id="empty-pokemon-list">
 			Please select pokemon
-		</div>
+		</h3>
 	</div>
 </template>
 <script>
@@ -30,17 +30,24 @@ export default {
 	height: 100px;
 	position: fixed;
 	display: flex;
-	align-items: center;
 	bottom: 0;
 	z-index: 1;
+	align-items: center;
 	overflow-x: auto;
 	overflow-y: hidden;
+	box-shadow: rgba($black, 0.4) 0 -5px 8px 0;
 	background-color: $blue;
 }
 .pokemon-list {
 	padding: 15px 1%;
 	align-items: center;
 	display: flex;
+}
+#empty-pokemon-list {
+	color: $white;
+	font-size: 1.5rem;
+	width: 100%;
+	text-align: center;
 }
 .pokemon {
 	min-width: 150px;

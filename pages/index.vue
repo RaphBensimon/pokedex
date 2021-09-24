@@ -1,6 +1,8 @@
 <template>
-	<div class="pokemon-list">
-		<Pokemon v-for="(pokemon, index) in pokemons" :key="index" :pokemon="pokemon" />
+	<div>
+		<div class="pokemon-list">
+			<Pokemon v-for="(pokemon, index) in pokemons" :key="index" :pokemon="pokemon" />
+		</div>
 		<Pokedex />
 	</div>
 </template>
@@ -31,7 +33,28 @@ export default {
 </script>
 <style lang="scss" scoped>
 .pokemon-list {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-areas: 'a b c d';
+	row-gap: 10px;
+	column-gap: 10px;
+	padding: 10px;
+}
+
+@media screen and (max-width: 1000px) {
+	.pokemon-list {
+		grid-template-areas: 'a b c';
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.pokemon-list {
+		grid-template-areas: 'a b';
+	}
+}
+
+@media screen and (max-width: 375px) {
+	.pokemon-list {
+		grid-template-areas: 'a';
+	}
 }
 </style>
