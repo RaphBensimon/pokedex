@@ -49,7 +49,6 @@ export default {
 		const name = this.$route.query.name
 		await this.$axios.$get(`https://pokeapi.co/api/v2/pokemon/${name}`).then(res => {
 			this.pokemon = res
-			console.log(res)
 			this.loading = false
 		})
 	}
