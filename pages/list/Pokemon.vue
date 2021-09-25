@@ -17,7 +17,7 @@
 			<img class="sprite" :src="information.sprites.front_default">
 		</div>
 		<button class="btn-icon blue" :class="{'white': isInTeam}"
-			@click.stop="$router.push('/pokemon')">
+			@click.stop="$router.push(`/pokemon?name=${pokemon.name}`)">
 			More information
 			<icon icon="eye" class="eye" />
 		</button>
@@ -50,8 +50,15 @@ export default {
 	},
 	computed : {
 		isInTeam() {
-			const team = this.$store.getters['team/get']
+			const team = this.$store.getters['team/GET']
 			return team.find(x => x.name == this.pokemon.name)
+		}
+	},
+	watch : {
+		async pokemon() {
+			if(window.innerHeight > this.$el.offsetTop) {
+				await this.loadInformation()
+			}
 		}
 	},
 	methods : {
@@ -62,7 +69,7 @@ export default {
 				this.information.img.onload = () => {
 					this.loading = false
 				}
-				this.information.img.src = this.information.sprites.front_default
+				this.information.img.src = res.sprites.front_default
 				window.removeEventListener('scroll', this.watchScroll)
 			})
 		},
@@ -72,14 +79,16 @@ export default {
 			}
 		},
 		editPokemonInTeam() {
-			if(this.isInTeam) {
-				this.$store.commit('team/REMOVE_POKEMON', this.pokemon)
-			} else {
-				const pokemon = {
-					name : this.pokemon.name,
-					img  : this.information.img.src
+			if(!this.loading) {
+				if(this.isInTeam) {
+					this.$store.commit('team/REMOVE_POKEMON', this.pokemon)
+				} else {
+					const pokemon = {
+						name : this.pokemon.name,
+						img  : this.information.img.src
+					}
+					this.$store.commit('team/ADD_POKEMON', pokemon)
 				}
-				this.$store.commit('team/ADD_POKEMON', pokemon)
 			}
 		}
 	}
