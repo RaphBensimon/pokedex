@@ -3,7 +3,7 @@ const state = () => ({
 })
 
 const getters = {
-	get : state => state.team
+	GET : state => state.team
 }
 
 const mutations = {
@@ -14,6 +14,9 @@ const mutations = {
 		const index = state.team.findIndex(x => x.name == pokemon.name)
 		state.team.splice(index, 1)
 	},
+	SET : (state, team) => {
+		state.team = team
+	}
 }
 const actions = {
 }

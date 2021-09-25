@@ -1,25 +1,40 @@
 <template>
 	<div id="pokedex">
-		<div class="pokemon-list" v-if="team.length">
-			<div class="pokemon" v-for="(pokemon, index) in team" :key="index">
-				<div class="name">
-					{{ pokemon.name }}
+		<client-only>
+			<draggable v-model="team" group="people" @start="drag=true" @end="drag=false" id="pokemon-list"
+				v-if="team.length">
+				<div class="pokemon" v-for="(pokemon, index) in team" :key="index">
+					<div class="name">
+						{{ pokemon.name }}
+					</div>
+					<img class="sprite" :src="pokemon.img">
 				</div>
-				<img class="sprite" :src="pokemon.img">
+			</draggable>
+			<div v-else id="empty-pokemon-list">
+				Please select pokemon
 			</div>
-		</div>
-		<h3 v-else id="empty-pokemon-list">
-			Please select pokemon
-		</h3>
+		</client-only>
 	</div>
 </template>
 <script>
+import draggable from 'vuedraggable'
 export default {
+	components : {
+		draggable
+	},
 	computed : {
-		team() {
-			return this.$store.getters['team/get']
+		team : {
+			get() {
+				return this.$store.getters['team/GET']
+			},
+			set(team) {
+				this.$store.commit('team/SET', team)
+			}
+
 		}
 	},
+	methods : {
+	}
 }
 </script>
 <style lang="scss" scoped>
@@ -27,7 +42,7 @@ export default {
 #pokedex {
 	max-width: 100%;
 	width: 100%;
-	height: 100px;
+	min-height: 70px;
 	position: fixed;
 	display: flex;
 	bottom: 0;
@@ -38,8 +53,8 @@ export default {
 	box-shadow: rgba($black, 0.4) 0 -5px 8px 0;
 	background-color: $blue;
 }
-.pokemon-list {
-	padding: 15px 1%;
+#pokemon-list {
+	padding: 10px 1%;
 	align-items: center;
 	display: flex;
 }
@@ -50,15 +65,22 @@ export default {
 	text-align: center;
 }
 .pokemon {
+	cursor: grab;
 	min-width: 150px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: $border-radius;
-	margin: 1%;
+	margin-right: 2%;
 	background-color: $white;
 	border: 1px solid $light-grey;
 	box-shadow: rgba($black, 0.2) 0 2px 8px 0;
+}
+.pokemon.sortable-chosen {
+	opacity: 0.5;
+}
+.dragged {
+	display: none;
 }
 .name {
 	font-weight: bold;
